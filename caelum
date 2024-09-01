@@ -1,0 +1,344 @@
+#!/bin/bash
+
+# Información del script
+AUTOR="4r14dn4"
+VERSION="1.0"
+EMAIL="4r14dn4@proton.me"
+MAQUINA="Caelum"
+NUMERO_HERRAMIENTAS=0
+
+# Definición de colores básicos
+WHITE='\033[0;37m'       # Blanco
+
+# Definición de colores brillantes
+
+BRIGHT_RED='\033[1;31m'      # Rojo brillante
+BRIGHT_GREEN='\033[1;32m'    # Verde brillante
+BRIGHT_YELLOW='\033[1;33m'   # Amarillo brillante
+BRIGHT_MAGENTA='\033[1;35m'  # Magenta brillante
+BRIGHT_CYAN='\033[1;36m'     # Cian brillante
+BRIGHT_WHITE='\033[1;37m'    # Blanco brillante
+
+# Estilos adicionales
+BOLD='\033[1m'         # Negrita
+RESET='\033[0m'        # Restablecer formato
+
+# Encabezado del menú
+encabezado() {
+    echo -e "${WHITE}"
+    echo " ██████╗ █████╗ ███████╗██╗     ██╗   ██╗███╗   ███╗"
+    echo "██╔════╝██╔══██╗██╔════╝██║     ██║   ██║████╗ ████║"
+    echo "██║     ███████║█████╗  ██║     ██║   ██║██╔████╔██║"
+    echo "██║     ██╔══██║██╔══╝  ██║     ██║   ██║██║╚██╔╝██║"
+    echo "╚██████╗██║  ██║███████╗███████╗╚██████╔╝██║ ╚═╝ ██║"
+    echo " ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝ ╚═════╝ ╚═╝     ╚═╝"
+    echo -e "${RESET}"
+    echo -e "  ✍  Autor: ${BOLD}$AUTOR${RESET}"
+    echo -e "  🚀 Versión: ${BOLD}$VERSION${RESET}"
+    echo -e "  📬 Contacto: ${BOLD}$EMAIL${RESET}\n"
+    #📩
+}
+
+# Mostrar menú principal
+mostrar_menu() {
+    encabezado
+    echo -e "${BRIGHT_YELLOW}====================================================${RESET}"
+    echo -e "${BRIGHT_WHITE}${BOLD}   		Bienvenido a $MAQUINA${RESET}"
+    echo -e "${BRIGHT_YELLOW}====================================================${RESET}"
+    echo -e "${BRIGHT_CYAN}Seleccione una categoría:${RESET}"
+
+    echo -e "(1) ${BOLD}Información Digital ${RESET}"
+    echo -e "(2) ${BOLD}Redes Sociales ${RESET}"
+    echo -e "(3) ${BOLD}Sitios Web ${RESET}"
+    echo -e "(4) ${BOLD}Redes y Dominios${RESET}"
+    echo -e "(5) ${BOLD}Metadatos${RESET}"
+    echo -e "(6) ${BOLD}Otras${RESET}"
+    echo -e "${BRIGHT_RED}(7) Salir${RESET}"
+    echo -e "${BRIGHT_YELLOW}==============================${RESET}"
+}
+
+# Manejar errores de entrada
+error_opcion() {
+    echo -e "${BRIGHT_RED}Opción no válida, por favor seleccione un número del 1 al 7.${RESET}"
+}
+
+# Mostrar ayuda y ejemplos
+mostrar_ayuda_y_ejemplo() {
+    local herramienta=$1
+    echo -e "${BRIGHT_GREEN}\nHa seleccionado la herramienta:\n${RESET}" 
+    echo -e "			 ============================"
+    echo -e "${BOLD}				  $herramienta${RESET}"
+    echo -e "			 ============================"
+
+    case $herramienta in
+
+        "Maltego")
+            echo -e "\n${BOLD}Maltego${RESET} es una herramienta gráfica utilizada para visualizar y analizar relaciones entre datos recopilados."
+            echo -e "\n${BRIGHT_MAGENTA}Ejemplo de uso:${RESET} ${BRIGHT_WHITE}maltego${RESET}\n"
+            ;;
+        "theHarvester")
+            echo -e "\n${BOLD}theHarvester${RESET} es una herramienta de recolección de información y reconocimiento sobre dominios, correos electrónicos, subdominios, hosts, direcciones y más."
+            echo -e "\n${BRIGHT_MAGENTA}Ejemplo de uso:${RESET} ${BRIGHT_WHITE} theHarvester -d campusciberseguridad.com -b all${RESET}\n"
+            ;;
+         "Th3inspector")
+            echo -e "\n${BOLD}Th3inspector${RESET} es una herramienta avanzada destinada a la investigación de seguridad y la recopilación de información sobre dominios. Permite realizar un análisis exhaustivo de un dominio mediante la recolección y el análisis de datos críticos como subdominios, registros de DNS y más."
+            echo -e "\n${BRIGHT_MAGENTA}Ejemplo de uso:${RESET}${BRIGHT_WHITE} th3inspector -l campusciberseguridad.com${RESET}\n"
+            ;;
+        "Spiderfoot")
+            echo -e "\n${BOLD}Spiderfoot${RESET} es una herramienta automatizada de recolección de información y reconocimiento diseñada para recopilar datos de dominios, direcciones IP, correos electrónicos, nombres y mucho más sobre un objetivo."
+            echo -e "\n${BRIGHT_MAGENTA}Ejemplo de uso:${RESET} ${BRIGHT_WHITE}spiderfoot${RESET}\n"
+            ;;
+	"Blackbird")
+            echo -e "\n${BOLD}Blacbird${RESET} es una herramienta especializada en la recolección y análisis de datos de redes sociales capaz de realizar búsquedas avanzadas y exhaustivas por nombre de usuario o correo electrónico en múltiples redes sociales."
+            echo -e "\n${BRIGHT_MAGENTA}Ejemplo de uso:${RESET} ${BRIGHT_WHITE}blackbird -u user123${RESET}\n"
+            ;;
+        "CrossLinked")
+            echo -e "\n${BOLD}CrossLinked${RESET} es una herramienta de enumeración de LinkedIn que utiliza el scraping de motores de búsqueda para recopilar nombres de empleados válidos de una organización."
+            echo -e "\n${BRIGHT_MAGENTA}Ejemplo de uso:${RESET} ${BRIGHT_WHITE}crosslinked -f '{first}.{last}@empresa.com' empresa${RESET}\n" 
+            ;;
+        "Maigret")
+            echo -e "\n${BOLD}Maigret${RESET} es una herramienta diseñada para recopilar información detallada sobre perfiles en diversas plataformas de redes sociales y servicios en la red. Permite identificar posibles cuentas asociadas con un nombre de usuario específico, proporcionando un informe exhaustivo sobre la presencia digital del objetivo."
+            echo -e "\n${BRIGHT_MAGENTA}Ejemplo de uso:${RESET} ${BRIGHT_WHITE}maigret user123${RESET}\n"
+            ;;
+        "Sherlock")
+            echo -e "\n${BOLD}Sherlock${RESET} es una herramienta diseñada para realizar búsquedas exhaustivas de perfiles en la red. Permite rastrear y localizar nombres de usuario en múltiples plataformas y redes sociales, identificando posibles cuentas asociadas a una identidad específica."
+            echo -e "\n${BRIGHT_MAGENTA}Ejemplo de uso:${RESET} ${BRIGHT_WHITE}sherlock user123${RESET}\n"
+            ;;
+        "Httpx")
+            echo -e "\n${BOLD}Httpx${RESET} es una herramienta avanzada diseñada para realizar peticiones HTTP enfocada en la detección de activos en la web, permitiendo escanear masivamente dominios o direcciones IP, recopilar información sobre servidores, identificar cabeceras HTTP, verificar la existencia de endpoints y más."
+            echo -e "\n${BRIGHT_MAGENTA}Ejemplo de uso:${RESET} ${BRIGHT_WHITE}httpx -u https://campusciberseguridad.com --status-code${RESET}\n"
+            ;;
+        "Nessus")
+            echo -e "\n${BOLD}Nessus${RESET} es una herramienta de seguridad que permite identificar, evaluar y gestionar vulnerabilidades en sitios web. Proporciona una visión detallada de posibles amenazas y puntos débiles, ofreciendo la capacidad de realizar escaneos de seguridad exhaustivos."
+            echo -e "\n${BRIGHT_MAGENTA}Iniciar la herramienta:${RESET} ${BRIGHT_WHITE}systemctl start nessusd${RESET}\n"
+            ;;
+        "Photon")
+            echo -e "\n${BOLD}Photon${RESET} es una herramienta de raspado web y recopilación de datos que se especializa en extraer información específica de sitios web, como URLs, archivos, parámetros, enlaces y mucho más sin realizar una exploración completa del sitio."
+            echo -e "\n${BRIGHT_MAGENTA}Ejemplo de uso:${RESET} ${BRIGHT_WHITE}photon -u https://campusciberseguridad.com${RESET}\n"
+            ;;
+        "Uscrapper")
+            echo -e "\n${BOLD}Uscrapper${RESET} es una herramienta diseñada para realizar scraping de sitios web de manera eficiente, permitiendo la extracción automatizada de datos desde diferentes fuentes."
+            echo -e "\n${BRIGHT_MAGENTA}Ejemplo de uso:${RESET} ${BRIGHT_WHITE}Uscrapper -u https://campusciberseguridad.com${RESET}\n"
+            ;;
+        "CloudFail")
+            echo -e "\n${BOLD}CloudFail${RESET} es una herramienta desarrollada para la recopilación de subdominios en plataformas de servicios en la nube, como Amazon Web Services (AWS), Google Cloud Platform (GCP) y Microsft Azure."
+            echo -e "\n${BRIGHT_MAGENTA}Ejemplo de uso:${RESET} ${BRIGHT_WHITE}cloudfail -t campusciberseguridad.com${RESET}\n"
+            ;;
+        "DMitry")
+            echo -e "\n${BOLD}DMitry${RESET} es una herramienta de recopilación de información diseñada para realizar un análisis exhaustivo sobre dominios, subdominios, direcciones IP, servidores DNS, direcciones de correo electrónico, puertos abiertos y servicios vinculados."
+            echo -e "\n${BRIGHT_MAGENTA}Ejemplo de uso:${RESET} ${BRIGHT_WHITE}dmitry -winsepo resultados.txt campusciberseguridad.com ${RESET}\n"
+            ;;
+        "DNSRecon")
+            echo -e "\n${BOLD}DNSRecon${RESET} es una herramienta de reconocimiento diseñada para realizar un análisis exhaustivo del Sistema de Nombres de Dominio (DNS), siendo capaz de identificar vulnerabilidades potenciales en la configuración DNS, enumerar registros DNS, identificar servidores de nombres y detectar configuraciones erróneas que podrían ser explotadas por atacantes."
+            echo -e "\n${BRIGHT_MAGENTA}Ejemplo de uso:${RESET} ${BRIGHT_WHITE}dnsrecon -d campusciberseguridad.com -t std${RESET}\n"
+            ;;
+        "Nmap")
+            echo -e "\n${BOLD}Nmap${RESET} es una herramienta utilizada para el escaneo y auditoría de redes que permite descubrir hosts y servicios en una red, permitiendo identificar dispositivos conectados, puertos abiertos, servicios en ejecución y posibles vulnerabilidades de seguridad."
+            echo -e "\n${BRIGHT_MAGENTA}Ejemplo de uso:${RESET} ${BRIGHT_WHITE}nmap -v -A campusciberseguridad.com${RESET}\n"
+            ;;
+        "Shodan")
+            echo -e "\n${BOLD}Shodan${RESET} es un motor de búsqueda especializado que permite descubrir y analizar dispositivos conectados a Internet, tales como servidores, cámaras, routers y sistemas de control industrial."
+            echo -e "\nPara utilizar esta herramienta, es necesario contar con una clave API. Se puede configurar ejecutando el siguiente comando: ${BOLD}shodan init <api key>${RESET}" 
+            echo -e "\n${BRIGHT_MAGENTA}Ejemplo de uso:${RESET} ${BRIGHT_WHITE}shodan search apache${RESET}\n"
+            ;;
+        "Sublist3r")
+            
+            echo -e "\n${BOLD}Sublist3r${RESET} es una herramienta diseñada para identificar subdominios de un dominio o sitio web objetivo."
+            echo -e "\n${BRIGHT_MAGENTA}Ejemplo de uso:${RESET} ${BRIGHT_WHITE}sublist3r -d campusciberseguridad.com${RESET}\n"
+            ;;
+        "Whois")
+            echo -e "\n${BOLD}Whois${RESET} es una utilidad de red que permite consultar información sobre la propiedad de dominios de internet, como el nombre del propietario, la organización, la fecha de registro, la fecha de expiración y los servidores de nombres asociados."
+            echo -e "\n${BRIGHT_MAGENTA}Ejemplo de uso:${RESET} ${BRIGHT_WHITE}whois campusciberseguridad.com${RESET}\n"
+            ;;
+
+        "Exiftool")
+            echo -e "\n${BOLD}Exiftool${RESET} es una herramienta utilizada para leer, escribir y editar metadatos en archivos multimedia."
+            echo -e "\n${BRIGHT_MAGENTA}Ejemplo de uso:${RESET} ${BRIGHT_WHITE}exiftool imagen.png${RESET}\n"
+            ;;
+        "Metagoofil")
+            echo -e "\n${BOLD}Metagoofil${RESET} es una herramienta diseñada para la recopilación de información a partir de metadatos de archivos presentes en sitios web."
+            echo -e "\n${BRIGHT_MAGENTA}Ejemplo de uso:${RESET} ${BRIGHT_WHITE}metagoofil -d campusciberseguridad.com -t doc,pdf${RESET}\n"
+            ;;
+        "Abiword")
+            echo -e "${BOLD}Abiword${RESET} es un procesador de texto ligero que permite crear y editar documentos de manera rápida sin sobrecargar el sistema. Se puede utilizar a través de la línea de comandos para realizar procesos de extracción de texto y conversión."
+            echo -e "\n${BRIGHT_MAGENTA}Ejemplo de uso:${RESET} ${BRIGHT_WHITE}abiword -t text archivo.pdf${RESET}\n"
+            ;;
+        "CTFR")
+	    echo -e "\n${BOLD}CTFR${RESET} es una herramienta desarrollada para extraer los subdominios de un sitio web HTTPS de manera rápica y eficiente."
+	    echo -e "\n${BRIGHT_MAGENTA}Ejemplo de uso:${RESET} ${BRIGHT_WHITE}ctfr -d campusciberseguridad.com${RESET}\n"
+	    ;;
+        "Recon-ng")
+            echo -e "\n${BOLD}Recon-ng${RESET} es una herramienta utilizada para la recolección y análisis automatizado de información sobre objetivos específicos."
+            echo -e "\n${BRIGHT_MAGENTA}Ejemplo de uso:${RESET} ${BRIGHT_WHITE}recon-ng${RESET}\n"
+            ;;
+        *)
+            echo -e "${BRIGHT_RED}Herramienta no reconocida.${RESET}"
+            ;;
+    esac
+}
+
+# Ejecutar herramienta en una nueva terminal
+ejecutar_herramienta() {
+    local herramienta=$1
+    echo -e "\n${BRIGHT_GREEN}Abriendo una nueva terminal para ejecutar${BRIGHT_YELLOW}${BOLD} $herramienta...${RESET}"
+    if [[ $herramienta != "Maltego" && $herramienta != "Spiderfoot" && $herramienta != "Recon-ng" ]]; then
+    	echo -e "${BRIGHT_WHITE}Se recomienda copiar el ${BRIGHT_MAGENTA}ejemplo de uso${RESET} para probar la herramienta."
+    fi
+
+    case $herramienta in
+    	"Maltego") comando="maltego";;
+    	"theHarvester") comando="/home/caelum/.venv/theHarvester/bin/python3 /home/caelum/Escritorio/Herramientas/theHarvester/theHarvester.py -h" ;;
+    	"Th3inspector") comando="perl /home/caelum/Escritorio/Herramientas/Th3inspector/Th3inspector.pl -h" ;;
+    	"Spiderfoot") comando="cd /home/caelum/Escritorio/Herramientas/spiderfoot-4.0/ && /home/caelum/.venv/spiderfoot/bin/python3 ./sf.py -l 127.0.0.1:5001" ;;
+    	"Blackbird") comando="/home/caelum/.venv/blackbird/bin/python3 /home/caelum/Escritorio/Herramientas/blackbird/blackbird.py -h" ;;
+    	"CrossLinked") comando="/home/caelum/.venv/crosslinked/bin/python3 /home/caelum/Escritorio/Herramientas/crosslinked/crosslinked.py -h" ;;
+    	"Maigret") comando="cd /home/caelum/Escritorio/Herramientas/maigret && /home/caelum/.venv/maigret/bin/python3 -m maigret -h" ;;
+    	"Sherlock") comando="/home/caelum/.venv/sherlock/bin/python3 /home/caelum/Escritorio/Herramientas/sherlock/sherlock_project/sherlock.py -h" ;;
+    	"Httpx") comando="httpx -h";;
+    	"Nessus") comando="" ;;
+    	"Photon") comando="/home/caelum/.venv/photon/bin/python3 /home/caelum/Escritorio/Herramientas/Photon/photon.py -h";;
+    	"Uscrapper") comando="/home/caelum/.venv/Uscrapper/bin/python3 /home/caelum/Escritorio/Herramientas/Uscrapper/Uscrapper-vanta.py -h" ;;
+    	"CloudFail") comando="/home/caelum/.venv/CloudFail/bin/python3 /home/caelum/Escritorio/Herramientas/CloudFail/cloudfail.py -h";;
+    	"DMitry") comando="dmitry";;
+    	"DNSRecon") comando="dnsrecon -h";;
+    	"Nmap") comando="nmap -h";;
+    	"Shodan") comando="shodan -h";;
+    	"Sublist3r") comando="/home/caelum/.venv/sublist3r/bin/python3 /home/caelum/Escritorio/Herramientas/Sublist3r/sublist3r.py -h" ;;
+    	"Whois") comando="whois";;
+    	"Abiword") comando="abiword -h" ;;
+    	"CTFR") comando="/home/caelum/.venv/ctfr/bin/python3 /home/caelum/Escritorio/Herramientas/ctfr/ctfr.py -h" ;;
+    	"Exiftool") comando="exiftool" ;;
+    	"Metagoofil") comando="/home/caelum/.venv/metagoofil/bin/python3 /home/caelum/Escritorio/Herramientas/metagoofil/metagoofil.py -h" ;;
+    	"Recon-ng") comando="/home/caelum/Escritorio/Herramientas/recon-ng/recon-ng" ;;
+    	"*") comando="" ;;
+    esac
+    
+    if [[ $herramienta == "Nessus" ]]; then
+    	xdg-open "https://caelum:8834/#/" >/dev/null 2>&1
+    else
+    	gnome-terminal -- bash -c "$comando; exec bash"
+    	if [[ $herramienta == "Spiderfoot" ]]; then
+	    xdg-open "http://127.0.0.1:5001/" >/dev/null 2>&1
+	fi
+    fi
+}
+
+# Manejar la selección de herramientas
+seleccionar_herramienta() {
+
+    local herramientas=("$@")
+    echo -e "${BRIGHT_YELLOW}==============================${RESET}"
+
+    case $NUMERO_HERRAMIENTAS in
+    	2)  opciones="a-b" ;;
+    	3)  opciones="a-c" ;;
+    	4)  opciones="a-d" ;;
+    	7)  opciones="a-g" ;;
+    	*)  echo "Número de herramientas no válido"; exit 1 ;;
+    esac
+
+    read -p "Elija una herramienta {$opciones}: " seleccion
+    echo -e "${BRIGHT_YELLOW}==============================${RESET}"
+    
+    local index=$(( $(printf "%d" "'$seleccion") - 97 ))
+    
+    if [[ $seleccion == "v" ]]; then
+        return
+    elif [[ $index -ge 0 && $index -lt ${#herramientas[@]} ]]; then
+        mostrar_ayuda_y_ejemplo "${herramientas[$index]}"
+        echo -e "${BRIGHT_CYAN}¿Qué desea hacer ahora?${RESET}"
+        echo -e "${BRIGHT_WHITE} 1. Utilizar la herramienta${RESET}"
+        echo -e "${BRIGHT_YELLOW} 2. Volver al menú principal${RESET}"
+        echo -e "${BRIGHT_RED} 3. Salir${RESET}"
+        echo -e "${BRIGHT_YELLOW}================================${RESET}"
+        read -p "Elija una opción [1-3]: " siguiente_accion
+        echo -e "${BRIGHT_YELLOW}================================${RESET}"
+        case $siguiente_accion in
+            1) ejecutar_herramienta "${herramientas[$index]}" ;;
+            2) return ;;
+            3) exit 0 ;;
+            *) error_opcion ;;
+        esac
+    else
+        error_opcion
+    fi
+}
+
+# Mostrar opciones de herramientas
+mostrar_opciones() {
+    echo -e "${BRIGHT_YELLOW}==============================${RESET}"
+    case $1 in
+        1)
+            NUMERO_HERRAMIENTAS=4
+            echo -e "${BRIGHT_MAGENTA}Seleccione una herramienta de Información Digital:${RESET}"
+            echo -e "{a} ${BOLD}Maltego${RESET}"
+            echo -e "{b} ${BOLD}theHarvester${RESET}"
+            echo -e "{c} ${BOLD}Th3inspector${RESET}"
+            echo -e "{d} ${BOLD}Spiderfoot${RESET}"
+            echo -e "${BRIGHT_YELLOW}{v} Volver atrás${RESET}"
+            seleccionar_herramienta "Maltego" "theHarvester" "Th3inspector" "Spiderfoot"
+            ;;
+        2)
+            NUMERO_HERRAMIENTAS=4
+            echo -e "${BRIGHT_MAGENTA}Seleccione una herramienta de Redes Sociales:${RESET}"
+            echo -e "{a} ${BOLD}Blackbird${RESET}"
+            echo -e "{b} ${BOLD}CrossLinked${RESET}"
+            echo -e "{c} ${BOLD}Maigret${RESET}"
+            echo -e "{d} ${BOLD}Sherlock${RESET}"
+            echo -e "${BRIGHT_YELLOW}{v} Volver atrás${RESET}"
+            seleccionar_herramienta "Blackbird" "CrossLinked" "Maigret" "Sherlock" 
+            ;;
+        3)
+            NUMERO_HERRAMIENTAS=4
+            echo -e "${BRIGHT_MAGENTA}Seleccione una herramienta de Sitios Web:${RESET}"
+            echo -e "{a} ${BOLD}Httpx${RESET}"
+            echo -e "{b} ${BOLD}Nessus${RESET}"
+            echo -e "{c} ${BOLD}Photon${RESET}"
+            echo -e "{d} ${BOLD}Uscrapper${RESET}"
+            echo -e "${BRIGHT_YELLOW}{v} Volver atrás${RESET}"
+            seleccionar_herramienta "Httpx" "Nessus" "Photon" "Uscrapper"
+            ;;
+        4)
+	    NUMERO_HERRAMIENTAS=7
+            echo -e "${BRIGHT_MAGENTA}Seleccione una herramienta de Redes y Dominios:${RESET}"
+            echo -e "{a} ${BOLD}CloudFail${RESET}"
+            echo -e "{b} ${BOLD}DMitry${RESET}"
+            echo -e "{c} ${BOLD}DNSRecon${RESET}"
+            echo -e "{d} ${BOLD}Nmap${RESET}"
+            echo -e "{e} ${BOLD}Shodan${RESET}"
+            echo -e "{f} ${BOLD}Sublist3r${RESET}"
+            echo -e "{g} ${BOLD}Whois${RESET}"
+            echo -e "${BRIGHT_YELLOW}{v} Volver atrás${RESET}"
+            seleccionar_herramienta "CloudFail" "DMitry" "DNSRecon" "Nmap" "Shodan" "Sublist3r" "Whois"
+            ;;
+        5)
+            NUMERO_HERRAMIENTAS=2
+            echo -e "${BRIGHT_MAGENTA}Seleccione una herramienta de Metadatos:${RESET}"
+            echo -e "{a} ${BOLD}ExifTool${RESET}"
+            echo -e "{b} ${BOLD}Metagoofil${RESET}"
+            echo -e "${BRIGHT_YELLOW}{v} Volver atrás${RESET}"
+            seleccionar_herramienta "Exiftool" "Metagoofil" 
+            ;;
+        6)
+	    NUMERO_HERRAMIENTAS=3
+            echo -e "${BRIGHT_MAGENTA}Seleccione una herramienta de Otras:${RESET}"
+            echo -e "{a} ${BOLD}Abiword${RESET}"
+            echo -e "{b} ${BOLD}CTFR${RESET}"
+            echo -e "{c} ${BOLD}Recon-ng${RESET}"
+            echo -e "${BRIGHT_YELLOW}{v} Volver atrás${RESET}"
+            seleccionar_herramienta "Abiword" "CTFR" "Recon-ng" 
+            ;;
+        7) echo -e "${BRIGHT_RED}Ha salido de Caelum...${RESET}" 
+           exit 0 ;;
+        *) error_opcion ;;
+    esac
+}
+
+
+# Bucle principal
+while true; do
+    mostrar_menu
+    read -p "Elija una categoría (1-7): " opcion
+    mostrar_opciones "$opcion"
+done
+
